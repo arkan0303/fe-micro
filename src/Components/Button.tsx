@@ -18,9 +18,12 @@ const Button = () => {
         }`}
       >
         {clicked ? (
-          <span className="inset-0 flex items-center justify-center text-white bg-green-500 rounded-full w-8 h-6">
+          <a
+            href="/paslon"
+            className="inset-0 flex items-center justify-center text-white bg-green-500 rounded-full w-8 h-6"
+          >
             A
-          </span>
+          </a>
         ) : (
           "Login"
         )}

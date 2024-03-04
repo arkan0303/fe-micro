@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 const CardTwo = () => {
   return (
     <>
@@ -8,9 +9,9 @@ const CardTwo = () => {
         <button className="bg-red-700 text-white  px-4 py-1 mt-48 ">
           SENIN, 03 JAN 2023
         </button>
-        <h1 className="font-bold text-white text-3xl">
+        <Link className="font-bold text-white text-3xl" to="/detail">
           KPU TETAPKAN 3 MENTOR TERBAIK
-        </h1>
+        </Link>
         <p className="text-white  text-2xl ">Super Admin</p>
       </div>
     </>

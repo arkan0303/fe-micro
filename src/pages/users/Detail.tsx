@@ -1,12 +1,12 @@
-import Navbar from "../Components/Navbar";
+import Navbar from "../../Components/Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import Footer from "../Components/Footer";
+import Footer from "../../Components/Footer";
 
 const Detail = () => {
   return (
     <>
-      <Navbar />
+      <Navbar header="PEMILU PRESIDEN DUMBWAYS.ID " voting="Voting" />
       <div className="bg-slate-300">
         <div className="w-3/4 mx-auto  p-5 bg-slate-100 ">
           <div>
