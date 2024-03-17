@@ -1,6 +1,35 @@
+import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Navbar";
 
-const ListPaslon = () => {
+interface Paslon {
+  id: number;
+  nomorUrut: number;
+  namaPaslon: string;
+  visiMisi: string[];
+  partai: { id: number; namaPartai: string }[];
+}
+
+const ListPaslon: React.FC = () => {
+  const [paslonList, setPaslonList] = useState<Paslon[]>([]);
+
+  useEffect(() => {
+    fetchPaslonList();
+  }, []);
+
+  const fetchPaslonList = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/v1/candidates");
+      if (response.ok) {
+        const data = await response.json();
+        setPaslonList(data);
+      } else {
+        console.error("Gagal mengambil data paslon");
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error);
+    }
+  };
+
   return (
     <>
       <Navbar header="DASHBOARD PEMILU " partai="/partai" paslon="/paslon" />
@@ -25,31 +54,34 @@ const ListPaslon = () => {
                 Visi & Misi
               </th>
               <th className="p-3 text-left border border-zinc-950 bg-slate-300 ">
-                Kondisi
+                Koalisi Partai
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td className="p-3 text-left border border-zinc-950">1</td>
-              <td className="p-3 text-left border border-zinc-950">
-                <img className="w-11" src="images/logo.png" alt="" />
-              </td>
-              <td className="p-3 text-left border border-zinc-950">
-                {" "}
-                Cintara surya paloh
-              </td>
-              <td className="p-3 text-left border border-zinc-950">
-                <li>Memindahkan indonesia ke isekai</li>
-                <li>Nonton anime 3x sehari</li>
-                <li>Melakukan peresapan</li>
-              </td>
-              <td className="p-3 text-left border border-zinc-950">
-                <li>Partai persatuan wiboo</li>
-                <li>Partai regbull</li>
-                <li>Partai black magic</li>
-              </td>
-            </tr>
+            {paslonList.map((paslon) => (
+              <tr key={paslon.id}>
+                <td className="p-3 text-left border border-zinc-950">
+                  {paslon.nomorUrut}
+                </td>
+                <td className="p-3 text-left border border-zinc-950">
+                  <img className="w-11" src="images/logo.png" alt="" />
+                </td>
+                <td className="p-3 text-left border border-zinc-950">
+                  {paslon.namaPaslon}
+                </td>
+                <td className="p-3 text-left border border-zinc-950">
+                  {paslon.visiMisi.map((item, index) => (
+                    <li key={index}>{item}</li>
+                  ))}
+                </td>
+                <td className="p-3 text-left border border-zinc-950">
+                  {paslon.partai.map((partai) => (
+                    <li key={partai.id}>{partai.namaPartai}</li>
+                  ))}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

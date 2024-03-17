@@ -32,7 +32,11 @@ const Home: React.FC = () => {
             })}
           </div>
         </div>
-        <Moto />
+        <Moto
+          children="PILIHLAH CALON PRESIDEN MENTOR DARI REKAM JEJAK YANG JELAS PASTIKAN
+          MEREKA TIDAK MEMILIKI VISI MISI UNTUK MELEGALKAN SLOT"
+          color="text-black"
+        />
         <Footer />
       </div>
     </>

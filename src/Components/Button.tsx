@@ -1,33 +1,28 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "./InfoUser.tsx";
 
 const Button = () => {
-  const [clicked, setClicked] = useState(false);
+  const { user } = useUser(); // Gunakan useUser() hook untuk mengakses informasi pengguna
+  const navigate = useNavigate(); // Gunakan useHistory() hook untuk melakukan navigasi
 
-  const handleClick = () => {
-    setClicked(!clicked);
+  const handleLoginClick = () => {
+    // Cek apakah pengguna sudah login atau belum
+    if (!user) {
+      // Jika belum login, lakukan navigasi ke halaman login
+      navigate("/login");
+    }
   };
 
   return (
     <>
-      <button
-        onClick={handleClick}
-        className={`relative py-1 px-4 rounded ${
-          clicked
-            ? "bg-black"
-            : "bg-white text-black font-bold hover:bg-blue-700"
-        }`}
+      {/* Tambahkan className yang sesuai untuk styling */}
+      <span
+        onClick={handleLoginClick}
+        className="py-1 px-4 rounded bg-white text-black font-bold hover:bg-blue-700 cursor-pointer"
       >
-        {clicked ? (
-          <a
-            href="/paslon"
-            className="inset-0 flex items-center justify-center text-white bg-green-500 rounded-full w-8 h-6"
-          >
-            A
-          </a>
-        ) : (
-          "Login"
-        )}
-      </button>
+        {/* Ubah kondisi disini sesuai dengan status login pengguna */}
+        {user ? `Hallo, ${user.fullName}` : "Login"}
+      </span>
     </>
   );
 };

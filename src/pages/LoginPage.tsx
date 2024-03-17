@@ -1,21 +1,62 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../Components/InfoUser.tsx";
+
+// Mendefinisikan tipe untuk user
+interface User {
+  fullName: string;
+  password: string;
+}
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    fullName: "",
+    password: "",
+  });
+  const [registeredUsers, setRegisteredUsers] = useState<User[]>([]);
   const navigate = useNavigate();
+  const { loginUser } = useUser(); // Gunakan hook useUser untuk mendapatkan fungsi loginUser
 
-  const handleLogin = (e: any) => {
-    e.preventDefault(); // Hindari default form submission
+  useEffect(() => {
+    const fetchRegisteredUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/users");
+        if (response.ok) {
+          const data = await response.json();
+          setRegisteredUsers(data);
+        } else {
+          throw new Error("Failed to fetch registered users");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
 
-    // Logika autentikasi
-    if (username === "admin" && password === "adminn") {
-      navigate("/dashboard");
-    } else if (username !== "" && password !== "") {
-      navigate("/home"); // Jika bukan admin, arahkan ke halaman pengguna biasa
+    fetchRegisteredUsers();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { fullName, password } = formData;
+    const user = registeredUsers.find(
+      (user) => user.fullName === fullName && user.password === password
+    );
+
+    if (user) {
+      loginUser(user); // Panggil fungsi loginUser untuk menyimpan data pengguna
+      if (user.status === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/home");
+      }
     } else {
-      alert("Invalid username or password");
+      alert("Invalid email or password");
     }
   };
 
@@ -31,18 +72,19 @@ const LoginPage = () => {
           <form onSubmit={handleLogin}>
             <div>
               <label
-                htmlFor="name"
+                htmlFor="fullname"
                 className="block text-slate-700 text-sm font-bold mb-2"
               >
-                Username
+                Fullname
               </label>
               <input
                 type="text"
-                id="name"
-                placeholder="Enter your name"
-                className="border w-full px-4 py-2 text-slate-600 placeholder:opacity-50"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                id="fullname"
+                name="fullName"
+                placeholder="Enter your fullname"
+                className="border w-full px-4 py-2 text-slate-600 placeholder-opacity-50"
+                value={formData.fullName}
+                onChange={handleChange}
               />
             </div>
             <div className="mt-3">
@@ -55,10 +97,11 @@ const LoginPage = () => {
               <input
                 type="password"
                 id="password"
+                name="password"
                 placeholder="Enter your password"
-                className="border w-full px-4 py-2 text-slate-600 placeholder:opacity-50"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                className="border w-full px-4 py-2 text-slate-600 placeholder-opacity-50"
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
             <button
@@ -72,7 +115,7 @@ const LoginPage = () => {
           <p className="text-sm text-center mt-2">
             Don't have an account?{" "}
             <a
-              href="/Register"
+              href="/register"
               className="text-blue-600 underline underline-offset-4"
             >
               Register

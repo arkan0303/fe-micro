@@ -1,0 +1,43 @@
+[
+  {
+    "nomorUrut": 1,
+    "namaPaslon": "CINTARA SURYA PALOH",
+    "visiMisi": [
+      "Memindahkan Indonesia ke Israil",
+      "Nonton anime 3x sehari",
+      "Melakukan peresapan pada budaya Jepang"
+    ],
+    "koalisi": [
+      "Partai Persatuan Wibu",
+      "Partai Redbull",
+      "Partai Black Magic"
+    ],
+    "image": "images/kpu.png"
+  },
+  {
+    "nomorUrut": 2,
+    "namaPaslon": "ANAK RANTAU LULUS PELUH",
+    "visiMisi": [
+      "Membangun desa digital",
+      "Menanam 1 juta pohon durian",
+      "Mewujudkan cita-cita ke laut"
+    ],
+    "koalisi": ["Partai Biker", "Partai Seafood Lovers", "Partai Sungai Siput"],
+    "image": "images/kpu.png"
+  },
+  {
+    "nomorUrut": 3,
+    "namaPaslon": "KAWAL BUMI BANGSA",
+    "visiMisi": [
+      "Menjaga keutuhan NKRI",
+      "Meningkatkan kualitas pendidikan",
+      "Menegakkan hukum dan keadilan"
+    ],
+    "koalisi": [
+      "Partai Pancasila",
+      "Partai Kesejahteraan Rakyat",
+      "Partai Laskar Merah Putih"
+    ],
+    "image": "images/kpu.png"
+  }
+]

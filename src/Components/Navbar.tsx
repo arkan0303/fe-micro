@@ -1,10 +1,11 @@
+import { UserProvider } from "./InfoUser.tsx";
 import Button from "./Button";
 import { Link } from "react-router-dom";
 
 const Navbar = (props: any) => {
   const { header, voting, partai, paslon, children } = props;
   return (
-    <>
+    <UserProvider>
       <div className="flex justify-between p-3 px-10 bg-black text-white items-center">
         <div className="flex items-center gap-4">
           <img className="w-8" src="images/logo.png" alt="" />
@@ -23,7 +24,7 @@ const Navbar = (props: any) => {
           <Button />
         </div>
       </div>
-    </>
+    </UserProvider>
   );
 };
 
