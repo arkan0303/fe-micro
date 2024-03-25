@@ -1,26 +1,38 @@
 import { DefaultizedPieValueType } from "@mui/x-charts";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
-
-const data = [
-  { value: 60, label: "60%", color: "#FF6384" },
-  { value: 25, label: "30%", color: "#FFCD56" },
-  { value: 15, label: "10%", color: "#36A2EB" },
-];
-
-const sizing = {
-  margin: { right: 5 },
-  width: 400,
-  height: 400,
-  legend: { hidden: true },
-};
-const TOTAL = data.map((item) => item.value).reduce((a, b) => a + b, 0);
-
-const getArcLabel = (params: DefaultizedPieValueType) => {
-  const percent = params.value / TOTAL;
-  return `${(percent * 100).toFixed(0)}%`;
-};
+import { useEffect, useState } from "react";
 
 const CartPie = () => {
+  const [candidateVotes, setCandidateVotes] = useState([]);
+  const [totalVotes, setTotalVotes] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Ambil data hasil pemilihan dari API
+        const response = await fetch("http://localhost:5000/api/v1/votes");
+        if (response.ok) {
+          const votes = await response.json();
+          const total = votes.reduce((acc, vote) => acc + vote.totalVotes, 0);
+          setCandidateVotes(votes);
+          setTotalVotes(total);
+        } else {
+          console.error("Failed to fetch candidate votes");
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getArcLabel = (params: DefaultizedPieValueType) => {
+    // Hitung persentase suara untuk setiap kandidat
+    const percent = (params.value / totalVotes) * 100;
+    return `${percent.toFixed(0)}%`;
+  };
+
   return (
     <div className="">
       <div className="text-center mb-10">
@@ -30,7 +42,11 @@ const CartPie = () => {
         series={[
           {
             outerRadius: 200,
-            data,
+            data: candidateVotes.map((candidate) => ({
+              value: candidate.totalVotes,
+              label: `${candidate.totalVotes}%`,
+              color: candidate.color,
+            })),
             arcLabel: getArcLabel,
           },
         ]}
@@ -41,7 +57,10 @@ const CartPie = () => {
             fontSize: 25,
           },
         }}
-        {...sizing}
+        width={400}
+        height={400}
+        margin={{ right: 5 }}
+        legend={{ hidden: true }}
       />
     </div>
   );

@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Banner from "../../Components/Banner";
 import Card from "../../Components/Card";
 import CardTwo from "../../Components/Card-2";
 import Moto from "../../Components/Moto";
 import Footer from "../../Components/Footer";
-import Dummy from "../../mocks/Dummy.json";
-import { Article } from "../../Interfaces/Article";
 
 const Home: React.FC = () => {
-  const [getArticle, setArticle] = React.useState<Article[]>(Dummy);
+  const [articles, setArticles] = useState([]);
 
-  console.log(getArticle);
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/v1/articles");
+        if (response.ok) {
+          const data = await response.json();
+          setArticles(data);
+          console.log(data);
+        } else {
+          console.error("Failed to fetch articles");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
   return (
     <>
       <div>
@@ -27,9 +43,15 @@ const Home: React.FC = () => {
 
           <div className="flex justify-center flex-wrap w-9/12 sm:w-9/12  mx-auto mt-11 gap-3 mb-4 ">
             <CardTwo />
-            {getArticle.map((data: Article) => {
-              return <Card />;
-            })}
+
+            {articles.map((article) => (
+              <Card
+                key={article.id}
+                title={article.title}
+                createdAt={new Date(article.createdAt)} // Mengonversi string tanggal menjadi objek Date
+                username={article.username}
+              />
+            ))}
           </div>
         </div>
         <Moto

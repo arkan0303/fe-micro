@@ -7,18 +7,17 @@ interface Partai {
   namaPartai: string;
 }
 
-
 const Paslon = () => {
   const [formData, setFormData] = useState({
     nama_paslon: "",
     nomor_urut: 0,
     visi_misi: "",
-    partaiIds: [] as number[], 
+    partaiIds: [] as number[],
   });
   const [partaiList, setPartaiList] = useState<Partai[]>([]);
   const [selectedPartai, setSelectedPartai] = useState<Partai[]>([]);
-  
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchPartaiList();
@@ -54,7 +53,7 @@ const navigate = useNavigate();
       .filter((partai) => partai) as Partai[];
 
     setSelectedPartai((prevSelectedPartai) => [
-      ...prevSelectedPartai, 
+      ...prevSelectedPartai,
       ...selectedPartaiObjects,
     ]);
     setFormData({ ...formData, partaiIds: selectedPartaiIds });
@@ -71,7 +70,7 @@ const navigate = useNavigate();
         nama_paslon: formData.nama_paslon,
         nomor_urut: formData.nomor_urut,
         visi_misi: visiMisiArray,
-        partaiIds: selectedPartai.map((partai) => partai.id), 
+        partaiIds: selectedPartai.map((partai) => partai.id),
       };
 
       const response = await fetch("http://localhost:5000/api/v1/candidates", {
@@ -141,7 +140,6 @@ const navigate = useNavigate();
                 id="partai"
                 name="partai"
                 onChange={handlePartaiSelect}
-            
               >
                 {partaiList.map((partai) => (
                   <option key={partai.id} value={partai.id}>

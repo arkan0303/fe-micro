@@ -62,7 +62,7 @@ const VotingPage = () => {
   return (
     <>
       <div>
-        <Navbar header="PEMILU PRESIDEN DUMBWAYS.ID " voting="Voting" />
+        <Navbar header="PEMILU PRESIDEN DUMBWAYS.ID " children="Voting" />
         <h1 className="my-5 text-3xl text-lime-800 font-bold text-center">
           INFO PEMILU TERUPDATE{" "}
         </h1>

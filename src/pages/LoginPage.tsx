@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../Components/InfoUser.tsx";
 
 // Mendefinisikan tipe untuk user
 interface User {
   fullName: string;
   password: string;
+  userId: string;
+  status: string;
 }
 
 const LoginPage = () => {
@@ -15,7 +16,6 @@ const LoginPage = () => {
   });
   const [registeredUsers, setRegisteredUsers] = useState<User[]>([]);
   const navigate = useNavigate();
-  const { loginUser } = useUser(); // Gunakan hook useUser untuk mendapatkan fungsi loginUser
 
   useEffect(() => {
     const fetchRegisteredUsers = async () => {
@@ -47,9 +47,11 @@ const LoginPage = () => {
     const user = registeredUsers.find(
       (user) => user.fullName === fullName && user.password === password
     );
-
+    console.log(JSON.stringify(user));
     if (user) {
-      loginUser(user); // Panggil fungsi loginUser untuk menyimpan data pengguna
+      localStorage.setItem("userId", user.id);
+      localStorage.setItem("username", user.fullName);
+
       if (user.status === "admin") {
         navigate("/dashboard");
       } else {

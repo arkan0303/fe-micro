@@ -12,8 +12,8 @@ import ListPaslon from "./pages/admin/ListPaslon.tsx";
 import ListPartai from "./pages/admin/ListPartai.tsx";
 import VotingPage from "./pages/users/VotingPage.tsx";
 import Home from "./pages/users/Home.tsx";
-import { UserProvider } from "./Components/InfoUser.tsx";
 import PartySelection from "./Components/votingMilih.tsx";
+import Article from "./pages/users/Article.tsx";
 
 const router = createBrowserRouter([
   {
@@ -60,13 +60,14 @@ const router = createBrowserRouter([
     path: "/milih",
     element: <PartySelection />,
   },
+  {
+    path: "/article",
+    element: <Article />,
+  },
 ]);
 
-// Tambahkan UserProvider di sekitar RouterProvider
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <UserProvider>
-      <RouterProvider router={router} />
-    </UserProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
